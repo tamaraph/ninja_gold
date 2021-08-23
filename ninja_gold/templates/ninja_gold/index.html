@@ -1,0 +1,116 @@
+{% load static %}
+<!DOCTYPE html>
+<html lang="es-cl">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+
+    <!--link bootstrap-->
+    <link rel="stylesheet" href="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/css/bootstrap.css"/>
+
+    <!--CSS propio-->
+    <link rel="stylesheet" href="{% static 'ninja_gold/css/my_styles.css' %}">
+
+    <!-- JS Jquery-->
+    <script src="https://ajax.googleapis.com/ajax/libs/jquery/3.6.0/jquery.js"></script>
+
+    <title>Ninja Gold Games</title>
+</head>
+<body>
+    <div class="container">
+        <div class="row mt-4 mb-4">
+            <div class="col-sm-6">
+                <h2>Your gold: {{request.session.total_gold}}</h2>
+            </div>
+            <div class="col-sm-6 text-end">
+                <a href="{% url 'play-again' %}" class="btn btn-primary">Play Again</a>
+            </div>
+        </div>
+        <div class="row mt-4 mb-4">
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                <form action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center border-primary">
+                        <div class="card-header">
+                            <h3 class="card-title">Farm</h3>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">(earns 10-20 golds)</h4>
+                        </div>
+                        <div class="card-footer">
+                            <input type="hidden" name="farming" value="farm">
+                            <input type="submit" class="btn btn-primary" value="Find gold!!">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                <form action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center border-success">
+                        <div class="card-header">
+                            <h3 class="card-title">Cave</h3>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">(earns 5-10 golds)</h4>
+                        </div>
+                        <div class="card-footer">
+                            <input type="hidden" name="farming" value="cave">
+                            <input type="submit" class="btn btn-success" value="Find gold!!">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                <form action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center border-warning">
+                        <div class="card-header">
+                            <h3 class="card-title">House</h3>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">(earns 2-5 golds)</h4>
+                        </div>
+                        <div class="card-footer">
+                            <input type="hidden" name="farming" value="house">
+                            <input type="submit" class="btn btn-warning" value="Find gold!!">
+                        </div>
+                    </div>
+                </form>
+            </div>
+            <div class="col-sm-12 col-md-6 col-lg-3 mb-4">
+                <form action="/process_money" method="POST">
+                    {% csrf_token %}
+                    <div class="card text-center border-danger">
+                        <div class="card-header">
+                            <h3 class="card-title">Casino</h3>
+                        </div>
+                        <div class="card-body">
+                            <h4 class="card-title">(earns/takes 0-50 golds)</h4>
+                        </div>
+                        <div class="card-footer">
+                            <input type="hidden" name="farming" value="casino">
+                            <input type="submit" class="btn btn-danger" value="Find gold!!">
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+        <div class="row mt-4 mb-4">
+            <h3>Activities</h3>
+            <div class="col-lg-12 activities">
+                {% for activity in request.session.activities reversed %}
+                    {% if "Lost" in activity %}    
+                        <h4 class="text-danger">{{activity}}</h4>
+                    {% else %}
+                        <h4 class="text-success">{{activity}}</h4>
+                    {% endif %}
+                {% endfor %}
+            </div>
+        </div>
+    </div>
+
+
+    <script src="https://cdn.jsdelivr.net/npm/bootstrap@5.0.1/dist/js/bootstrap.bundle.js"></script>
+</body>
+</html>
